@@ -1,29 +1,27 @@
-const express = require('express');
-const app = express();
-const path = require('path');
-const http = require('http').createServer(app);
-const io = require('socket.io')(http);
+const http=require('http');
+const Koa=require('koa');
+const io=require('socket.io');
+const uuid=require('uuid/v4');
 
-app.get('/',function (req,res) {
-   // res.send('<h3>本地调试中<h3>');
-    res.sendFile(__dirname+'/dist/clients/main/index.html')
-});
-io.on('connection',function (socket) {
-    let username = '';
-   console.log('an user connected');
-    socket.on('login',function (name) {
-        username = name;
-        socket.broadcast.emit('connection', username + ' connected')
+//
+let server=new Koa();
+
+//
+let httpServer=http.createServer(server.callback());
+httpServer.listen(8080);
+
+//
+let wsServer=io.listen(httpServer);
+
+wsServer.on('connection', sock=>{
+    console.log('connected');
+
+    const ID=uuid();
+
+    sock.emit('ID', ID);
+
+    sock.on('msg', (user, msg)=>{
+        wsServer.emit('broadcast', ID, user, msg);
     });
+});
 
-    socket.on('chat',(msg)=>{
-        let result = {
-            name : username,
-            message :msg
-        };
-       io.emit('chat',result)
-    })
-});
-http.listen(1003,()=>{
-   console.log("server start");
-});

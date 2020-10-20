@@ -44,7 +44,7 @@ export default class WebCheck extends React.Component {
     render() {
         return(
             <div>
-                <When condition = {this.state.loaded}>
+                {/*<When condition = {this.state.loaded}>*/}
                     <div className='container'>
                         <div className='context'>
                             {this.state.context.map((item,index)=>{
@@ -61,13 +61,13 @@ export default class WebCheck extends React.Component {
                             <button onClick={this.sendMessage}>{'send'}</button>
                         </div>
                     </div>
-                </When>
-                <When condition = {!this.state.loaded}>
-                    <div>
-                        <span>{'spile your name'}</span>
-                        <input value = {this.state.userName} onChange={this.loadName}/>
-                    </div>
-                </When>
+                {/*</When>*/}
+                {/*<When condition = {!this.state.loaded}>*/}
+                {/*    <div>*/}
+                {/*        <span>{'spile your name'}</span>*/}
+                {/*        <input value = {this.state.userName} onChange={this.loadName}/>*/}
+                {/*    </div>*/}
+                {/*</When>*/}
             </div>
         )
     }
